@@ -3,5 +3,9 @@ import '../styles/index.css'
 import { ReactElement } from 'react'
 
 export default function MyApp({ Component, pageProps }: AppProps): ReactElement {
-  return <Component {...pageProps} />
+  return (
+    <div className="lowercase">
+      <Component {...pageProps} />
+    </div>
+  )
 }

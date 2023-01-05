@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "genTypes": "supabase gen types typescript --linked > src/types/DatabaseTypes.d.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.2.3",

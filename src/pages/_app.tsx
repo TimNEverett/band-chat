@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { Database } from '../types/DatabaseTypes'
 import '../styles/globals.css'
 import { useRouter } from 'next/router'
+import { BandContextProvider } from '../contexts/band.context'
 
 export default function MyApp({
   Component,
@@ -34,7 +35,9 @@ export default function MyApp({
 
   return (
     <SessionContextProvider supabaseClient={supabaseClient} initialSession={pageProps.initialSession}>
-      <Component {...pageProps} />
+      <BandContextProvider supabase={supabaseClient}>
+        <Component {...pageProps} />
+      </BandContextProvider>
     </SessionContextProvider>
   )
 }

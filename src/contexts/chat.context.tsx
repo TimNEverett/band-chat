@@ -6,10 +6,13 @@ import { useBandContext } from './band.context'
 
 interface ChatContext {
   messages: ChatMessageType[]
+  sendMessage: (message: string) => Promise<void>
 }
 
 export const ChatContext = createContext<ChatContext>({
   messages: [],
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  sendMessage: async () => {},
 })
 
 export const ChatContextProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -28,7 +31,14 @@ export const ChatContextProvider: FC<PropsWithChildren> = ({ children }) => {
     getMessages()
   }, [band])
 
-  return <ChatContext.Provider value={{ messages }}>{children}</ChatContext.Provider>
+  const sendMessage = async (message: string) => {
+    if (band) {
+      const { error } = await supabase.from('chat_message').insert({ band: band.id, message })
+      if (error) throw error
+    }
+  }
+
+  return <ChatContext.Provider value={{ messages, sendMessage }}>{children}</ChatContext.Provider>
 }
 
 export const useChatContext = () => useContext(ChatContext)

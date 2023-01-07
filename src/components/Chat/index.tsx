@@ -1,11 +1,17 @@
 import { FC } from 'react'
 import { ChatContextProvider } from '../../contexts/chat.context'
 import { Chat } from './Chat'
+import { ChatInput } from './ChatInput'
 
 export const ChatWrapper: FC = () => {
   return (
     <ChatContextProvider>
-      <Chat />
+      <div className="flex flex-col h-full py-4">
+        <div className="flex-1">
+          <Chat />
+        </div>
+        <ChatInput />
+      </div>
     </ChatContextProvider>
   )
 }

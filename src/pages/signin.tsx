@@ -9,6 +9,7 @@ const SigninPage: NextPage = () => {
   const supabaseClient = useSupabaseClient<Database>()
   const [email, setEmail] = useState('')
   const [linkSent, setLinkSent] = useState(false)
+  const [error, setError] = useState('')
 
   const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -23,9 +24,22 @@ const SigninPage: NextPage = () => {
 
   const sendMagicLink = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await supabaseClient.auth.signInWithOtp({ email })
-    setLinkSent(true)
+    const { error } = await supabaseClient.auth.signInWithOtp({ email })
+    if (error) setError(error.message)
+    else setLinkSent(true)
   }
+
+  if (error)
+    return (
+      <div className="w-screen h-screen flex flex-col justify-center items-center bg-black text-white">
+        <div className="text-xl text-red-600">ERROR:</div>
+        <div className="text-xl">{error}</div>
+        <br />
+        <div className="text-xl">Ask Tim about it</div>
+        <br />
+        <div>Don&apos;t know tim? That sucks.</div>
+      </div>
+    )
 
   return (
     <div

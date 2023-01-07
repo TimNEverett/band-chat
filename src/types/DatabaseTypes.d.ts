@@ -43,12 +43,38 @@ export interface Database {
           name?: string | null
         }
       }
+      chat_message: {
+        Row: {
+          id: number
+          created_at: string
+          sender: string
+          message: string
+          band: string
+        }
+        Insert: {
+          id?: number
+          created_at?: string
+          sender?: string
+          message: string
+          band: string
+        }
+        Update: {
+          id?: number
+          created_at?: string
+          sender?: string
+          message?: string
+          band?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      belongs_to_band: {
+        Args: { _user_id: string; _band_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

@@ -7,9 +7,14 @@ import { Database } from '../types/DatabaseTypes'
 interface BandContext {
   band: Band | null
   bandMembers: BandMember[]
+  memberNameById: (id: string) => string
 }
 
-export const BandContext = createContext<BandContext | null>(null)
+export const BandContext = createContext<BandContext>({
+  band: null,
+  bandMembers: [],
+  memberNameById: (id: string) => id,
+})
 
 export const BandContextProvider: FC<PropsWithChildren<{ supabase: SupabaseClient<Database, 'public', any> }>> = ({
   children,
@@ -18,6 +23,11 @@ export const BandContextProvider: FC<PropsWithChildren<{ supabase: SupabaseClien
   const session = useSession()
   const [band, setBand] = useState<Band | null>(null)
   const [bandMembers, setBandMembers] = useState<BandMember[]>([])
+
+  const memberNameById = (id: string) => {
+    const member = bandMembers.find((member) => member.member === id)
+    return member?.name ? member.name : id.toString()
+  }
 
   useEffect(() => {
     const effect = async () => {
@@ -35,7 +45,7 @@ export const BandContextProvider: FC<PropsWithChildren<{ supabase: SupabaseClien
     if (session) effect()
   }, [supabase, session])
 
-  return <BandContext.Provider value={{ band, bandMembers }}>{children}</BandContext.Provider>
+  return <BandContext.Provider value={{ band, bandMembers, memberNameById }}>{children}</BandContext.Provider>
 }
 
 export const useBandContext = () => useContext(BandContext)

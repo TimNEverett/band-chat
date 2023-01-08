@@ -4,8 +4,7 @@
 import React, { useState } from 'react'
 import { useChatContext } from '../../contexts/chat.context'
 import Input from '../common/Input'
-import Button from '../common/Button'
-import { UpArrowIcon } from '../common/Icons.tsx/UpArrowIcon'
+import SendIcon from '../common/Icons.tsx/SendIcon'
 
 export const ChatInput = () => {
   const { sendMessage } = useChatContext()
@@ -23,13 +22,13 @@ export const ChatInput = () => {
     <div className="flex w-full">
       <form onSubmit={onSubmit} className="flex w-full">
         <Input
-          className=" flex-1 rounded-l-lg rounded-r-none bg-black text-white border-black border"
+          className=" flex-1 rounded-l-lg rounded-r-none border border-black bg-white"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <Button type="submit" className="rounded-l-none bg-gray-300 text-black">
-          <UpArrowIcon />
-        </Button>
+        <button type="submit" className="rounded-r-lg bg-black text-white px-4">
+          <SendIcon />
+        </button>
       </form>
     </div>
   )

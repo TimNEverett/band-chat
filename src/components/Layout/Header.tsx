@@ -3,12 +3,12 @@ import SignoutButton from '../Header/SignoutButton'
 
 const Header = () => {
   return (
-    <div className="w-screen h-16 flex items-center justify-between px-2 border-b">
-      <div className="w-1/3"></div>
-      <div className="w-1/3 flex justify-center">
+    <div className="w-screen h-16 flex items-center justify-between px-2 border-b bg-black">
+      <div className="w-1/4"></div>
+      <div className="w-1/2 flex justify-center">
         <BandDropDown />
       </div>
-      <div className="w-1/3 flex justify-end">
+      <div className="w-1/4 flex justify-end">
         <SignoutButton />
       </div>
     </div>

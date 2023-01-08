@@ -7,7 +7,7 @@ export const ChatMessage: FC<PropsWithChildren<{ message: ChatMessageType }>> = 
 
   const isMe = user?.id === message.sender
   return (
-    <div className={`p-2 rounded-lg ${isMe ? 'bg-gray-300 text-black' : 'bg-secondary text-primary'}`}>
+    <div className={`px-2 py-1 rounded-lg ${!isMe ? 'bg-white text-black' : 'bg-secondary text-primary'}`}>
       {message.message}
     </div>
   )

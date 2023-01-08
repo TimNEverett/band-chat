@@ -21,6 +21,22 @@ export const ChatContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const supabase = useSupabaseClient<Database>()
 
   useEffect(() => {
+    const chatMessageChannel = supabase
+      .channel('public:chat_message')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'chat_message' },
+        (payload: { new: ChatMessageType }) => {
+          setMessages((prev) => [...prev, payload.new])
+        },
+      )
+      .subscribe()
+    return () => {
+      supabase.removeChannel(chatMessageChannel)
+    }
+  }, [band])
+
+  useEffect(() => {
     const getMessages = async () => {
       if (band) {
         const { data: messages, error } = await supabase.from('chat_message').select('*').eq('band', band.id)

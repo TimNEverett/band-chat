@@ -35,7 +35,7 @@ export default function MyApp({
 
   return (
     <SessionContextProvider supabaseClient={supabaseClient} initialSession={pageProps.initialSession}>
-      <BandContextProvider supabase={supabaseClient}>
+      <BandContextProvider>
         <Component {...pageProps} />
       </BandContextProvider>
     </SessionContextProvider>

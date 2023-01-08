@@ -23,11 +23,11 @@ export const ChatInput = () => {
     <div className="flex w-full">
       <form onSubmit={onSubmit} className="flex w-full">
         <Input
-          className=" flex-1 rounded-l-lg rounded-r-none bg-gray-300 text-black"
+          className=" flex-1 rounded-l-lg rounded-r-none bg-black text-white border-black border"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <Button type="submit" className="rounded-l-none">
+        <Button type="submit" className="rounded-l-none bg-gray-300 text-black">
           <UpArrowIcon />
         </Button>
       </form>

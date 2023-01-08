@@ -58,7 +58,7 @@ const SigninPage: NextPage = () => {
 from-blue-400 
 to-orange-500 
 via-purple-500
-hover:animate-gradient-xy ${email.length == 0 && !linkSent && 'invisible'}`}
+hover:animate-gradient-xy ${email.length == 0 && !linkSent ? 'invisible' : ''}`}
           >
             Get a magic link
           </Button>

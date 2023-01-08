@@ -24,23 +24,27 @@ export const Chat: FC = () => {
     group.date = group.messages[group.messages.length - 1].created_at
   })
 
-  const GAP_TIME = 1000 * 60 * 60 * 24
-
   const isGap = (idx: number): boolean => {
     if (idx === 0) {
       return true
     }
-    return new Date(groupedMessages[idx].date).getTime() - new Date(groupedMessages[idx - 1].date).getTime() >= GAP_TIME
+    return formatRelativeDate(groupedMessages[idx].date) !== formatRelativeDate(groupedMessages[idx - 1].date)
   }
 
   return (
     <div className="flex flex-col justify-end h-full space-y-2">
       {groupedMessages.map((group, idx) => {
         return (
-          <>
-            <ChatMessageGroup key={group.date} messageGroup={group} />
-            {isGap(idx) && <div className="w-full text-center">{formatRelativeDate(group.date)}</div>}
-          </>
+          <div key={group.date}>
+            {isGap(idx) && (
+              <div className="relative flex py-5 items-center">
+                <div className="flex-grow border-t border-gray-300"></div>
+                <span className="flex-shrink mx-4 text-gray-500 text-sm">{formatRelativeDate(group.date)}</span>
+                <div className="flex-grow border-t border-gray-300"></div>
+              </div>
+            )}
+            <ChatMessageGroup messageGroup={group} />
+          </div>
         )
       })}
     </div>

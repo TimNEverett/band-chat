@@ -2,7 +2,7 @@ import { useUser } from '@supabase/auth-helpers-react'
 import { FC } from 'react'
 import { useBandContext } from '../../contexts/band.context'
 import { ChatMessageGroupType } from '../../types/CustomTypes'
-import { formatDate } from '../../utils/formatDate'
+import { formatDate, formatRelativeDate } from '../../utils/formatDate'
 import { ChatMessage } from './ChatMessage'
 
 export const ChatMessageGroup: FC<{ messageGroup: ChatMessageGroupType }> = ({ messageGroup }) => {
@@ -18,9 +18,6 @@ export const ChatMessageGroup: FC<{ messageGroup: ChatMessageGroupType }> = ({ m
           {messageGroup.messages.map((message) => (
             <ChatMessage key={message.id} message={message} />
           ))}
-        </div>
-        <div className="text-xs text-gray-500 w-full ${isMe ? 'text-right' : 'text-left'}">
-          {formatDate(messageGroup.date)}
         </div>
       </div>
     </div>

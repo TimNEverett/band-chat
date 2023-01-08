@@ -15,6 +15,9 @@ export const ChatContext = createContext<ChatContext>({
   sendMessage: async () => {},
 })
 
+const messageSort = (a: ChatMessageType, b: ChatMessageType) =>
+  new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+
 export const ChatContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const { band } = useBandContext()
   const [messages, setMessages] = useState<ChatMessageType[]>([])
@@ -27,7 +30,7 @@ export const ChatContextProvider: FC<PropsWithChildren> = ({ children }) => {
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'chat_message' },
         (payload: { new: ChatMessageType }) => {
-          setMessages((prev) => [...prev, payload.new])
+          setMessages((prev) => [...prev, payload.new].sort(messageSort))
         },
       )
       .subscribe()
@@ -41,7 +44,7 @@ export const ChatContextProvider: FC<PropsWithChildren> = ({ children }) => {
       if (band) {
         const { data: messages, error } = await supabase.from('chat_message').select('*').eq('band', band.id)
         if (error) throw error
-        if (messages) setMessages(messages)
+        if (messages) setMessages(messages.sort(messageSort))
       }
     }
     getMessages()
@@ -54,7 +57,7 @@ export const ChatContextProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }
 
-  return <ChatContext.Provider value={{ messages, sendMessage }}>{children}</ChatContext.Provider>
+  return <ChatContext.Provider value={{ messages: messages, sendMessage }}>{children}</ChatContext.Provider>
 }
 
 export const useChatContext = () => useContext(ChatContext)

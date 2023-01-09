@@ -6,5 +6,6 @@
 @layer base {
   html {
     font-family: 'Dosis', system-ui, sans-serif;
+    background-color: black;
   }
 }

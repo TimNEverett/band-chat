@@ -12,7 +12,7 @@ export const ChatWrapper: FC = () => {
           <Chat />
         </div>
         <NewMessagesCTA />
-        <div className="fixed bottom-0 w-full h-12 pt-1 bg-gray-200 px-4">
+        <div className="fixed bottom-0 w-full max-w-desktop h-12 pt-1 bg-gray-200 px-4">
           <ChatInput />
         </div>
       </div>

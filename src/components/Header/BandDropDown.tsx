@@ -19,15 +19,20 @@ const BandDropDown = () => {
         }`}
       >
         <div className="flex flex-col w-full divide-y">
-          {bands.map((b) => (
-            <button
-              onClick={() => selectBand(b)}
-              key={b.id}
-              className={`text-center p-2 hover:bg-gray-300 ${b.id === band?.id ? 'underline bg-slate-200' : ''}`}
-            >
-              {b.name}
-            </button>
-          ))}
+          {bands
+            .filter((b) => b.id !== band?.id)
+            .map((b) => (
+              <button
+                onClick={() => {
+                  selectBand(b)
+                  setIsOpen(false)
+                }}
+                key={b.id}
+                className={`text-center p-2 hover:bg-gray-300`}
+              >
+                {b.name}
+              </button>
+            ))}
         </div>
       </div>
     </div>

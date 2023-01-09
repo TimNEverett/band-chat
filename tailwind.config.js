@@ -7,6 +7,9 @@ module.exports = {
         primary: '#FFFFFF',
         secondary: '#000000',
       },
+      maxWidth: {
+        desktop: '800px',
+      },
       animation: {
         'gradient-x': 'gradient-x 5s ease-in-out infinite',
         'gradient-y': 'gradient-y 5s ease-in-out infinite',

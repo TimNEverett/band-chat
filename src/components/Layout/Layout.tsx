@@ -14,8 +14,8 @@ const Layout: FC<PropsWithChildren<LayoutProps>> = ({ children, title, descripti
         <title>{title}</title>
         <meta name="description" content={description} />
       </Head>
-      <div className="flex min-h-screen w-screen relative">
-        <div className="fixed w-full z-20 h-16">
+      <div className="flex min-h-screen w-screen relative justify-center">
+        <div className="fixed w-full z-20 h-16 max-w-desktop">
           <Header />
         </div>
 

@@ -28,7 +28,7 @@ export const BandContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [band, setBand] = useState<Band | null>(null)
   const [bands, setBands] = useState<Band[]>([])
   const [bandMembers, setBandMembers] = useState<BandMember[]>([])
-  const [selectedBand, setSelectedBand] = useLocalStorage<Band | null>('selectedBand', null)
+  const [selectedBand, setSelectedBand, selectedBandLoaded] = useLocalStorage<Band | null>('selectedBand')
 
   const memberNameById = (id: string) => {
     const member = bandMembers.find((member) => member.member === id)
@@ -37,6 +37,7 @@ export const BandContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const selectBand = (band: Band) => {
     setBand(band)
+    setSelectedBand(band)
   }
 
   useEffect(() => {
@@ -46,10 +47,6 @@ export const BandContextProvider: FC<PropsWithChildren> = ({ children }) => {
         if (error) throw error
         if (bands) {
           setBands(() => bands)
-          // always use BE data incase band has been updated
-          // if no selected band, use the first band
-          const curBand = bands.find((b) => b.id === selectedBand?.id) || bands[0]
-          setBand(curBand)
         }
       } catch (error) {
         console.log(error)
@@ -57,6 +54,14 @@ export const BandContextProvider: FC<PropsWithChildren> = ({ children }) => {
     }
     if (session) getBands()
   }, [supabase, session])
+
+  useEffect(() => {
+    if (selectedBandLoaded) {
+      const storedBand = bands.find((b) => b.id === selectedBand?.id)
+      if (storedBand) setBand(storedBand)
+      else if (bands.length > 0) setBand(bands[0])
+    }
+  }, [bands, selectedBand, selectedBandLoaded])
 
   useEffect(() => {
     const getBandMembers = async (curBand: Band) => {
@@ -69,8 +74,6 @@ export const BandContextProvider: FC<PropsWithChildren> = ({ children }) => {
       }
     }
     if (band) getBandMembers(band)
-    // update local storage whenever band changes
-    setSelectedBand(band)
   }, [band])
 
   return (

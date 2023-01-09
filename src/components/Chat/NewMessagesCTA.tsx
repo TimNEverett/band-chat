@@ -48,12 +48,12 @@ const NewMessagesCTA: FC = () => {
       window.scrollTo({ top: document.body.scrollHeight })
       return setFirstLoad(false)
     }
-  }, [messages])
+  }, [messages, firstLoad])
 
   if (unseenMessages < 1) return null
 
   return (
-    <div className="w-full p-2 fixed bottom-12 flex flex-col items-center">
+    <div className="w-full p-2 fixed bottom-12 flex flex-col items-center max-w-desktop">
       <button
         className="bg-gradient-to-r from-blue-400 to-orange-500 via-purple-500 animate-gradient-xy text-white rounded-full px-2"
         onClick={scrollToBottom}

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useBandContext } from '../../contexts/band.context'
-import CaretDownIcon from '../common/Icons.tsx/CaretDownIcon'
+import CaretDownIcon from '../common/Icons/CaretDownIcon'
 
 const BandDropDown = () => {
   const { band, bands, selectBand } = useBandContext()
@@ -14,7 +14,7 @@ const BandDropDown = () => {
         {band?.name || ''}
       </button>
       <div
-        className={`absolute mt-2 border bg-white rounded-lg transition-all duration-200 overflow-hidden origin-top-left w-full ${
+        className={`absolute mt-2 border bg-white rounded-lg transition-all duration-200 overflow-hidden origin-top-left w-full z-50 ${
           !isOpen ? 'opacity-0 scale-0' : 'shadow-xl delay-100'
         }`}
       >

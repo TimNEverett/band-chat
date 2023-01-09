@@ -32,7 +32,7 @@ export const Chat: FC = () => {
   }
 
   return (
-    <div className="flex flex-col justify-end h-full space-y-2">
+    <div className="flex flex-col space-y-2">
       {groupedMessages.map((group, idx) => {
         return (
           <div key={group.date}>

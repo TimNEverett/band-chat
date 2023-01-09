@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useBandContext } from '../../contexts/band.context'
-import CaretDownIcon from '../common/Icons/CaretDownIcon'
 
 const BandDropDown = () => {
   const { band, bands, selectBand } = useBandContext()

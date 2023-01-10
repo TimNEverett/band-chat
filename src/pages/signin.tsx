@@ -24,7 +24,12 @@ const SigninPage: NextPage = () => {
 
   const sendMagicLink = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const { error } = await supabaseClient.auth.signInWithOtp({ email })
+    const { error } = await supabaseClient.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: process.env.NEXT_PUBLIC_VERCEL_URL,
+      },
+    })
     if (error) setError(error.message)
     else setLinkSent(true)
   }
@@ -48,17 +53,21 @@ const SigninPage: NextPage = () => {
       }`}
     >
       {!linkSent && (
-        <form onSubmit={sendMagicLink} className="flex flex-col items-center space-y-8 w-5/6 md:w-1/2 lg:w-1/4">
-          <div className="max-w-full">
-            <Input value={email} onChange={onEmailChange} placeholder="enter email" type="email" />
+        <form onSubmit={sendMagicLink} className="flex flex-col items-center space-y-8 w-2/3 sm:w-1/3 lg:w-1/5">
+          <div className="w-full">
+            <Input
+              value={email}
+              onChange={onEmailChange}
+              placeholder="enter email"
+              type="email"
+              className="w-full text-center"
+            />
           </div>
           <Button
             type="submit"
-            className={`hover:bg-gradient-to-r 
-from-blue-400 
-to-orange-500 
-via-purple-500
-hover:animate-gradient-xy ${email.length == 0 && !linkSent ? 'invisible' : ''}`}
+            className={`hover:bg-gradient-to-r from-blue-400 to-orange-500 via-purple-500 hover:animate-gradient-xy ${
+              email.length == 0 && !linkSent ? 'invisible' : ''
+            }`}
           >
             Get a magic link
           </Button>
@@ -66,7 +75,7 @@ hover:animate-gradient-xy ${email.length == 0 && !linkSent ? 'invisible' : ''}`}
       )}
       {linkSent && (
         <div className={`text-white text-center`}>
-          <p className="text-lg">It&apos;s on the way!</p>
+          <p className="text-2xl">It&apos;s on the way!</p>
           <div className="mt-8">
             <div>didn&apos;t work?</div>
             <button className="ml-1 underline" onClick={reset}>

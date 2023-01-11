@@ -39,7 +39,7 @@ export const Chat: FC = () => {
             {isGap(idx) && (
               <div className="relative flex py-5 items-center">
                 <div className="flex-grow border-t border-gray-300"></div>
-                <span className="flex-shrink mx-4 text-gray-500 text-sm">{formatRelativeDate(group.date)}</span>
+                <span className="flex-shrink mx-4 text-gray-300 text-sm">{formatRelativeDate(group.date)}</span>
                 <div className="flex-grow border-t border-gray-300"></div>
               </div>
             )}

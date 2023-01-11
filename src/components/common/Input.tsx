@@ -1,7 +1,7 @@
 // react input component
 // use typescript and tailwindcss
 // props: value, onChange, placeholder, type, className, disabled
-import React, { FC, InputHTMLAttributes } from 'react'
+import React, { InputHTMLAttributes } from 'react'
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   value: string

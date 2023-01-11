@@ -8,7 +8,7 @@ module.exports = {
         secondary: '#000000',
       },
       maxWidth: {
-        desktop: '800px',
+        desktop: '400px',
       },
       animation: {
         'gradient-x': 'gradient-x 5s ease-in-out infinite',

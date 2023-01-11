@@ -22,7 +22,7 @@ export default function MyApp({
     const {
       data: { subscription },
     } = supabaseClient.auth.onAuthStateChange(async (event) => {
-      if (event === 'SIGNED_IN' && router.pathname === '/signin') {
+      if (event === 'SIGNED_IN' && ['/signin', '/otp'].includes(router.pathname)) {
         await router.push('/')
       } else if (event === 'SIGNED_OUT' && router.pathname !== '/auth/signin') {
         await router.push('/signin')

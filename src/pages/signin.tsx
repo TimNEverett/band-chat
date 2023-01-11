@@ -4,12 +4,14 @@ import { NextPage } from 'next'
 import Button from '../components/common/Button'
 import { useState } from 'react'
 import Input from '../components/common/Input'
+import { useRouter } from 'next/router'
 
 const SigninPage: NextPage = () => {
   const supabaseClient = useSupabaseClient<Database>()
   const [email, setEmail] = useState('')
   const [linkSent, setLinkSent] = useState(false)
   const [error, setError] = useState('')
+  const router = useRouter()
 
   const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -28,10 +30,11 @@ const SigninPage: NextPage = () => {
       email,
       options: {
         emailRedirectTo: process.env.NEXT_PUBLIC_VERCEL_URL,
+        shouldCreateUser: false, // invite only for now
       },
     })
     if (error) setError(error.message)
-    else setLinkSent(true)
+    else router.push('/otp?email=' + email)
   }
 
   if (error)
@@ -47,43 +50,26 @@ const SigninPage: NextPage = () => {
     )
 
   return (
-    <div
-      className={`w-screen h-screen flex justify-center items-center ${
-        linkSent ? 'bg-gradient-to-r from-blue-400 to-orange-500 via-purple-500 animate-gradient-xy' : 'bg-black'
-      }`}
-    >
-      {!linkSent && (
-        <form onSubmit={sendMagicLink} className="flex flex-col items-center space-y-8 w-2/3 sm:w-1/3 lg:w-1/5">
-          <div className="w-full">
-            <Input
-              value={email}
-              onChange={onEmailChange}
-              placeholder="enter email"
-              type="email"
-              className="w-full text-center"
-            />
-          </div>
-          <Button
-            type="submit"
-            className={`hover:bg-gradient-to-r from-blue-400 to-orange-500 via-purple-500 hover:animate-gradient-xy ${
-              email.length == 0 && !linkSent ? 'invisible' : ''
-            }`}
-          >
-            Get a magic link
-          </Button>
-        </form>
-      )}
-      {linkSent && (
-        <div className={`text-white text-center`}>
-          <p className="text-2xl">It&apos;s on the way!</p>
-          <div className="mt-8">
-            <div>didn&apos;t work?</div>
-            <button className="ml-1 underline" onClick={reset}>
-              try again
-            </button>
-          </div>
+    <div className="w-screen h-screen flex justify-center items-center bg-black">
+      <form onSubmit={sendMagicLink} className="flex flex-col items-center space-y-8 w-2/3 sm:w-1/3 lg:w-1/5">
+        <div className="w-full">
+          <Input
+            value={email}
+            onChange={onEmailChange}
+            placeholder="enter email"
+            type="email"
+            className="w-full text-center"
+          />
         </div>
-      )}
+        <Button
+          type="submit"
+          className={`hover:bg-gradient-to-r from-blue-400 to-orange-500 via-purple-500 hover:animate-gradient-xy ${
+            email.length == 0 && !linkSent ? 'invisible' : ''
+          }`}
+        >
+          Get a magic link
+        </Button>
+      </form>
     </div>
   )
 }

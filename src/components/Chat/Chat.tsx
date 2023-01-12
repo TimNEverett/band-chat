@@ -32,15 +32,24 @@ export const Chat: FC = () => {
   }
 
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col space-y-2 items-center justify-end w-full">
+      {groupedMessages.length === 0 && (
+        <div className="text-center text-gray-black bg-white p-4 rounded-lg mb-4">
+          no messages yet.
+          <br />
+          <div className="bg-gradient-to-r from-blue-400 to-orange-500 via-purple-500 animate-gradient-xy bg-clip-text text-xl font-bold text-transparent">
+            be the first!
+          </div>
+        </div>
+      )}
       {groupedMessages.map((group, idx) => {
         return (
-          <div key={group.date}>
+          <div key={group.date} className="w-full">
             {isGap(idx) && (
               <div className="relative flex py-5 items-center">
-                <div className="flex-grow border-t border-gray-300"></div>
-                <span className="flex-shrink mx-4 text-gray-300 text-sm">{formatRelativeDate(group.date)}</span>
-                <div className="flex-grow border-t border-gray-300"></div>
+                <div className="flex-grow border-t border-gray-500"></div>
+                <span className="flex-shrink mx-4 text-gray-500 text-sm">{formatRelativeDate(group.date)}</span>
+                <div className="flex-grow border-t border-gray-500"></div>
               </div>
             )}
             <ChatMessageGroup messageGroup={group} />

@@ -15,12 +15,12 @@ const Layout: FC<PropsWithChildren<LayoutProps>> = ({ children, title, descripti
         <title>{title}</title>
         <meta name="description" content={description} />
       </Head>
-      <div className="flex flex-col min-h-screen w-screen relative justify-center items-center">
+      <div className="flex flex-col min-h-screen w-screen relative justify-center items-center flex-1">
         <div className="fixed w-full z-20 h-16 max-w-desktop top-0">
           <Header />
         </div>
 
-        <main className="pt-16">{children}</main>
+        <main className="pt-16 flex flex-1 max-w-desktop w-full">{children}</main>
         <div className="sticky bottom-0 w-full h-16 bg-black max-w-desktop">
           <Footer />
         </div>

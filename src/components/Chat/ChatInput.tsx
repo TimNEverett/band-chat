@@ -23,12 +23,19 @@ export const ChatInput = () => {
   return (
     <form onSubmit={onSubmit} className="flex w-full items-center">
       <Input
-        className="h-10 flex-1 rounded-l-lg rounded-r-none border border-black bg-white"
+        className="h-10 flex-1 rounded-l-lg rounded-r-none border border-black border-r-0 bg-white"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         ref={inputRef}
       />
-      <button type="submit" className="rounded-r-lg bg-black text-white px-4 h-10">
+      <button
+        type="submit"
+        className={`rounded-r-lg text-white px-4 h-10 ${
+          message.length > 0
+            ? 'bg-gradient-to-r from-blue-400 to-orange-500 via-purple-500 animate-gradient-xy'
+            : 'bg-black'
+        }`}
+      >
         <SendIcon />
       </button>
     </form>

@@ -8,7 +8,7 @@ export const ChatWrapper: FC = () => {
   return (
     <ChatContextProvider>
       <div className="flex flex-col h-full justify-end">
-        <div className="flex-1 flex flex-col justify-end px-4">
+        <div className="flex justify-end px-4 h-full">
           <Chat />
         </div>
         <NewMessagesCTA />

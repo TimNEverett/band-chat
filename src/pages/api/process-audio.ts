@@ -1,31 +1,31 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from 'next'
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import ffmpeg from 'fluent-ffmpeg'
 import ffmpegStatic from 'ffmpeg-static'
 import fs from 'fs/promises'
+import { createClient } from '@supabase/supabase-js'
 
 const tempFileName = 'temp.mp3'
 
 const ProcessAudio = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   const start = Date.now()
   try {
-    const { fileName, secret } = JSON.parse(req.body)
+    console.log('Request received', req.body)
+    const { fileName, secret } = typeof req.body == 'string' ? JSON.parse(req.body) : req.body
 
     if (secret !== process.env.API_SECRET)
       return res.status(401).json({ data: { success: false }, error: 'unauthorized' })
     if (!fileName) return res.status(400).json({ data: { success: false }, error: 'bad_request' })
 
-    const supabase = createServerSupabaseClient({ req, res })
+    const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY)
 
     if (!ffmpegStatic) throw new Error('ffmpeg-static not found')
     ffmpeg.setFfmpegPath(ffmpegStatic)
 
-    // Get the audio file from the request
     const { data, error } = await supabase.storage.from('audio-blobs').createSignedUrl(fileName, 60 * 60 * 24)
 
-    if (error) throw new Error(`Could not get signed url: ${error.message}`)
+    if (error) throw new Error(`Get Audio blob error: Could not get signed url: ${error.message}`)
 
     // check if there is a local file called blob-1
     if (!data?.signedUrl) throw new Error('No file found')

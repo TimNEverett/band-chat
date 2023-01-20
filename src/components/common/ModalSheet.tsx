@@ -1,8 +1,8 @@
 // a react component that is a modal on desktop and a sheet on mobile
 
 import React, { FC, PropsWithChildren } from 'react'
-import CloseIcon from './Icons/CloseIcon'
 import { createPortal } from 'react-dom'
+import Icon from './Icons/Icon'
 
 type ModalSheetProps = {
   isOpen?: boolean
@@ -19,7 +19,7 @@ const ModalSheet: FC<PropsWithChildren<ModalSheetProps>> = ({ children, isOpen, 
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-bold">{title}</h2>
           <button onClick={onClose} className="text-gray-600 hover:text-gray-800">
-            <CloseIcon />
+            <Icon path="close" size="md" />
           </button>
         </div>
         <div className="mt-4 flex-1 flex flex-col justify-center items-center">{children}</div>

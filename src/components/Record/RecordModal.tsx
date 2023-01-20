@@ -1,7 +1,6 @@
 import { FC, useState } from 'react'
 import ModalSheet from '../common/ModalSheet'
 import Button from '../common/Button'
-import MicIcon from '../common/Icons/MicIcon'
 import RecordWrapper from '.'
 import Icon from '../common/Icons/Icon'
 
@@ -12,9 +11,7 @@ const RecordModal: FC = () => {
   return (
     <>
       <Button onClick={openModal}>
-        <Icon size="lg">
-          <MicIcon />
-        </Icon>
+        <Icon path="mic" size="lg" />
       </Button>
       <ModalSheet title="new recording" isOpen={isOpen} onClose={closeModal}>
         <RecordWrapper />

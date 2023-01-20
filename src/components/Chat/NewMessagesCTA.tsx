@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { useChatContext } from '../../contexts/chat.context'
 import { ChatMessageType } from '../../types/DBTypeAliases'
-import DownArrowIcon from '../common/Icons/DownArrowIcon'
+import Icon from '../common/Icons/Icon'
 
 const NewMessagesCTA: FC = () => {
   const { messages } = useChatContext()
@@ -61,7 +61,7 @@ const NewMessagesCTA: FC = () => {
         {unseenMessages} new messages
       </button>
       <div className="animate-bounce">
-        <DownArrowIcon />
+        <Icon path="downArrow" size="md" />
       </div>
     </div>
   )

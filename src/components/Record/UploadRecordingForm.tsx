@@ -2,7 +2,6 @@ import { FC, useState } from 'react'
 import { useRecordContext } from '../../contexts/record.context'
 import Button from '../common/Button'
 import Icon from '../common/Icons/Icon'
-import UploadIcon from '../common/Icons/UploadIcon'
 import Input from '../common/Input'
 
 const UploadRecordingForm: FC = () => {
@@ -30,9 +29,7 @@ const UploadRecordingForm: FC = () => {
         className="flex justify-center"
         loading={uploading}
       >
-        <Icon size="xl">
-          <UploadIcon />
-        </Icon>
+        <Icon path="upload" size="md" />
       </Button>
     </form>
   )

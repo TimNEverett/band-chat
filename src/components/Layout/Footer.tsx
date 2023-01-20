@@ -1,6 +1,5 @@
 import { FC } from 'react'
-import ChatIcon from '../common/Icons/ChatIcon'
-import LibraryIcon from '../common/Icons/LibraryIcon'
+import Icon from '../common/Icons/Icon'
 import RecordModal from '../Record/RecordModal'
 
 const Footer: FC = () => {
@@ -10,10 +9,10 @@ const Footer: FC = () => {
         <RecordModal />
       </div>
       <button className="w-1/3 h-full flex justify-center items-center pb-2">
-        <ChatIcon />
+        <Icon path="chat" size="md" />
       </button>
       <button className="w-1/3 h-full flex justify-center items-center pb-2">
-        <LibraryIcon />
+        <Icon path="library" size="md" />
       </button>
     </div>
   )

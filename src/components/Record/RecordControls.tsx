@@ -2,8 +2,6 @@ import { FC, useEffect, useState } from 'react'
 import { useRecordContext } from '../../contexts/record.context'
 import Counter from '../common/Counter'
 import Icon from '../common/Icons/Icon'
-import MicIcon from '../common/Icons/MicIcon'
-import StopIcon from '../common/Icons/StopIcon'
 
 const RecordControls: FC = () => {
   const { startRecording, stopRecording, isRecording, canUpload } = useRecordContext()
@@ -27,15 +25,7 @@ const RecordControls: FC = () => {
             isRecording ? 'animate-pulse bg-red-600 text-white' : 'bg-white text-red-600'
           }`}
         >
-          {isRecording ? (
-            <Icon size="xl">
-              <StopIcon />
-            </Icon>
-          ) : (
-            <Icon size="xl">
-              <MicIcon />
-            </Icon>
-          )}
+          {isRecording ? <Icon path="stop" size="xl" /> : <Icon path="mic" size="xl" />}
         </button>
       </div>
       <div>

@@ -1,8 +1,14 @@
-import { FC, PropsWithChildren } from 'react'
+import { FC } from 'react'
+import { IconPaths, IconPathType } from './IconPaths'
 
 type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
-const Icon: FC<PropsWithChildren<{ size?: IconSize }>> = ({ children, size = 'md' }) => {
+type Props = {
+  size?: IconSize
+  path: IconPathType
+}
+
+const Icon: FC<Props> = ({ size = 'md', path }) => {
   let width, height
 
   switch (size) {
@@ -33,7 +39,7 @@ const Icon: FC<PropsWithChildren<{ size?: IconSize }>> = ({ children, size = 'md
 
   return (
     <svg width={width} height={height} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {children}
+      {IconPaths[path]}
     </svg>
   )
 }

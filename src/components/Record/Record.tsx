@@ -2,8 +2,6 @@ import { FC, useState } from 'react'
 import { useRecordContext } from '../../contexts/record.context'
 import Button from '../common/Button'
 import Icon from '../common/Icons/Icon'
-import SaveIcon from '../common/Icons/SaveIcon'
-import TrashIcon from '../common/Icons/TrashIcon'
 import RecordControls from './RecordControls'
 import UploadRecordingForm from './UploadRecordingForm'
 
@@ -29,14 +27,10 @@ const Record: FC = () => {
         {showSaveButton && (
           <div className="flex space-x-2 w-full">
             <Button onClick={() => setWillUpload(true)} className="px-8">
-              <Icon>
-                <SaveIcon />
-              </Icon>
+              <Icon path="save" size="md" />
             </Button>
             <Button onClick={() => resetRecording()} className="bg-white text-black border border-black px-8">
-              <Icon>
-                <TrashIcon />
-              </Icon>
+              <Icon path="trash" size="md" />
             </Button>
           </div>
         )}

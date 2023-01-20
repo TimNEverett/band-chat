@@ -4,7 +4,7 @@
 import React, { useState, useRef } from 'react'
 import { useChatContext } from '../../contexts/chat.context'
 import Input from '../common/Input'
-import SendIcon from '../common/Icons/SendIcon'
+import Icon from '../common/Icons/Icon'
 
 export const ChatInput = () => {
   const { sendMessage } = useChatContext()
@@ -36,7 +36,7 @@ export const ChatInput = () => {
             : 'bg-black'
         }`}
       >
-        <SendIcon />
+        <Icon path="send" size="md" />
       </button>
     </form>
   )

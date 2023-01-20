@@ -3,6 +3,7 @@ import ModalSheet from '../common/ModalSheet'
 import Button from '../common/Button'
 import MicIcon from '../common/Icons/MicIcon'
 import RecordWrapper from '.'
+import Icon from '../common/Icons/Icon'
 
 const RecordModal: FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -11,7 +12,9 @@ const RecordModal: FC = () => {
   return (
     <>
       <Button onClick={openModal}>
-        <MicIcon />
+        <Icon size="lg">
+          <MicIcon />
+        </Icon>
       </Button>
       <ModalSheet title="new recording" isOpen={isOpen} onClose={closeModal}>
         <RecordWrapper />

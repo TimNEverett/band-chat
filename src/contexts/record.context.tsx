@@ -4,31 +4,35 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { createContext, FC, PropsWithChildren, useContext, useEffect, useState } from 'react'
 import { Database } from '../types/DatabaseTypes'
 
+type UploadState = 'success' | 'error' | null
+
 interface RecordContext {
   isRecording: boolean
   canUpload: boolean
   uploading: boolean
+  uploadState: UploadState
   startRecording: () => void
   stopRecording: () => void
   uploadBlob: (recordingName: string) => void
+  reset: () => void
 }
 
 export const RecordContext = createContext<RecordContext>({
   isRecording: false,
   canUpload: false,
   uploading: false,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  startRecording: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  stopRecording: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  uploadBlob: () => {},
+  uploadState: null,
+  startRecording: () => null,
+  stopRecording: () => null,
+  uploadBlob: () => null,
+  reset: () => null,
 })
 
 export const RecordContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isRecording, setIsRecording] = useState<boolean>(false)
   const [canUpload, setCanUpload] = useState<boolean>(false)
   const [uploading, setUploading] = useState<boolean>(false)
+  const [uploadState, setUploadState] = useState<UploadState>(null)
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null)
   const [blob, setBlob] = useState<Blob | null>(null)
   const supabase = useSupabaseClient<Database>()
@@ -52,13 +56,21 @@ export const RecordContextProvider: FC<PropsWithChildren> = ({ children }) => {
     if (blob) {
       setUploading(true)
       const { error } = await supabase.storage.from('audio-blobs').upload(recordingName, blob)
-      if (error) console.log('error uploading blob', error)
-      else {
+      if (error) {
+        setUploadState('error')
+        console.log('error uploading blob', error)
+      } else {
+        setUploadState('success')
         setBlob(null)
         setCanUpload(false)
       }
       setUploading(false)
     }
+  }
+
+  const reset = () => {
+    setBlob(null)
+    setCanUpload(false)
   }
 
   useEffect(() => {
@@ -71,7 +83,6 @@ export const RecordContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     const handleDataAvailable = (e: BlobEvent) => {
-      console.log('data available', e.data)
       setBlob(e.data)
     }
     if (mediaRecorder) {
@@ -85,14 +96,15 @@ export const RecordContextProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [mediaRecorder])
 
   useEffect(() => {
-    console.log('BLOB', blob)
     if (blob && blob.size > 0) {
       setCanUpload(true)
     }
   }, [blob])
 
   return (
-    <RecordContext.Provider value={{ isRecording, startRecording, stopRecording, canUpload, uploading, uploadBlob }}>
+    <RecordContext.Provider
+      value={{ isRecording, startRecording, stopRecording, canUpload, uploading, uploadBlob, reset, uploadState }}
+    >
       {children}
     </RecordContext.Provider>
   )

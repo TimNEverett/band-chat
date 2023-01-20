@@ -1,47 +1,48 @@
 import { FC, useState } from 'react'
 import { useRecordContext } from '../../contexts/record.context'
 import Button from '../common/Button'
-import Counter from '../common/Counter'
-import Input from '../common/Input'
+import Icon from '../common/Icons/Icon'
+import SaveIcon from '../common/Icons/SaveIcon'
+import TrashIcon from '../common/Icons/TrashIcon'
+import RecordControls from './RecordControls'
+import UploadRecordingForm from './UploadRecordingForm'
 
 const Record: FC = () => {
-  const { startRecording, stopRecording, isRecording, canUpload, uploadBlob } = useRecordContext()
-  const [recordingName, setRecordingName] = useState<string>('')
-  const [recSec, setRecSec] = useState<number>(0)
+  const { canUpload, reset, uploadState } = useRecordContext()
+  const [willUpload, setWillUpload] = useState<boolean>(false)
 
-  const convertAudio = async () => {
-    const resp = await fetch('/api/process-audio', {
-      method: 'POST',
-      body: JSON.stringify({ secret: 'shhhhhhhh', fileName: recordingName }),
-    })
-    console.log(resp)
-  }
+  const showUploadForm = canUpload && willUpload && uploadState === null
+  const showSaveButton = canUpload && !willUpload && uploadState === null
+  const showSuccess = !canUpload && uploadState === 'success'
+  const showError = !canUpload && uploadState === 'error'
 
-  const start = () => {
-    startRecording()
-    setRecSec(0)
+  const resetRecording = () => {
+    reset()
+    setWillUpload(false)
   }
 
   return (
     <div className="flex flex-col space-y-2 items-center justify-center">
-      <Button onClick={start}>start</Button>
-      <Button onClick={stopRecording}>stop</Button>
-      <div
-        className={`w-12 h-12 rounded-full  ${
-          isRecording ? 'bg-red-600 rounded-full animate-pulse' : 'bg-white border border-red-600'
-        }`}
-      ></div>
-      <Counter isRunning={isRecording} count={recSec} onTick={() => setRecSec((prev) => prev + 1)} />
-      <Input
-        value={recordingName}
-        onChange={(e) => setRecordingName(e.target.value)}
-        // disabled={!canUpload}
-        placeholder="name the recording"
-      />
-      <Button onClick={() => uploadBlob(recordingName)} disabled={!canUpload || recordingName.length < 0}>
-        upload
-      </Button>
-      <Button onClick={convertAudio}>convertAudio</Button>
+      <RecordControls />
+      <div className="w-full h-32 flex items-end ">
+        {showUploadForm && <UploadRecordingForm />}
+        {showSaveButton && (
+          <div className="flex space-x-2 w-full">
+            <Button onClick={() => setWillUpload(true)} className="px-8">
+              <Icon>
+                <SaveIcon />
+              </Icon>
+            </Button>
+            <Button onClick={() => resetRecording()} className="bg-white text-black border border-black px-8">
+              <Icon>
+                <TrashIcon />
+              </Icon>
+            </Button>
+          </div>
+        )}
+        {showSuccess && <div className="text-green-500">Success!</div>}
+        {showError && <div className="text-red-600">Error!</div>}
+      </div>
     </div>
   )
 }
